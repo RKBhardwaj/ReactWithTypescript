@@ -5,6 +5,7 @@ import { Grid, Row, Col } from 'react-bootstrap';
 import { storeProps } from '../../common/interfaces';
 
 import AlertMessage from '../shared/AlertMessage';
+import { InnerRoutes } from '../../Routes';
 
 class Content extends React.Component<any, any> {
     constructor(props: any) {
@@ -31,13 +32,7 @@ class Content extends React.Component<any, any> {
                     message={alert.message}
                 >
                 </AlertMessage>
-                <Grid>
-                    <Row>
-                        <Col lg={12} md={12} sm={12} xs={12}>
-                            Content
-                        </Col>
-                    </Row>
-                </Grid>
+                <InnerRoutes />
             </React.Fragment>
         );
     }

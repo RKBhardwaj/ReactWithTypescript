@@ -1,8 +1,4 @@
 import * as React from 'react';
-import Header from './components/container/Header';
-import Footer from './components/container/Footer';
-import Content from './components/container/Content';
-import './stylesheets/style.css';
 
 class App extends React.Component {
     constructor(props: object) {
@@ -12,9 +8,7 @@ class App extends React.Component {
     render() {
         return (
             <React.Fragment>
-                <Header></Header>
-                <Content></Content>
-                <Footer></Footer>
+                <h1>hello</h1>
             </React.Fragment>
         )
     }
