@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Alert, Button } from 'react-bootstrap';
+import { Alert } from 'react-bootstrap';
 
 import { AlertProps } from '../../common/interfaces';
 

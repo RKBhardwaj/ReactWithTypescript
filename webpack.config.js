@@ -1,11 +1,21 @@
+require('babel-polyfill');
+
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpackMerge = require('webpack-merge');
 
-const DEVELOPMENT = process.env.NODE_ENV === 'development';
-const PRODUCTION = process.env.NODE_ENV === 'production';
+const isDevMode = process.env.NODE_ENV !== 'production';
+
+const babelLoader = {
+    loader: 'babel-loader',
+    options: {
+      cacheDirectory: true,
+      babelrc: false,
+      presets: ['@babel/preset-env', '@babel/preset-react']
+    }
+  };
 
 const devConfiguration = {
     mode: 'development',
@@ -30,39 +40,42 @@ const prodConfiguration = {
         path: path.join(__dirname, '/dist'),
         publicPath: '/',
         filename: 'bundle.[hash:12].min.js'
-    },
-    plugins: [
-        new webpack.optimize.UglifyJsPlugin()
-    ]
+    }
 };
 
 const commonConfiguration = {
-    entry: './src/index.tsx',
+    cache: true,
+    entry: { 
+        main: './src/index.tsx'
+    },
     module: {
-        rules: [
-            {
+        rules: [{
                 test: /\.css$/,
                 loader: 'style-loader!css-loader',
                 exclude: /node_modules/
-            },
-            {
-                test: /\.tsx?$/,
-                loader: 'awesome-typescript-loader',
-                exclude: /node_modules/
-            },
-            {
-                enforce: 'pre',
+            }, {
+                test: /\.ts(x)?$/,
+                use: [
+                    babelLoader,
+                    {
+                      loader: 'ts-loader'
+                    }
+                ],
+                exclude: /node_modules/,
+            }, {
                 test: /\.js$/,
-                loader: 'source-map-loader',
-                exclude: /node_modules/
-            },
-            {
-                test: /.scss$/,
-                use: ExtractTextPlugin.extract({
-                  fallback: 'style-loader',
-                  use: ['css-loader', 'sass-loader'],
-                }),
-            },
+                exclude: /node_modules/,
+                use: [
+                  babelLoader
+                ]
+            }, {
+                test: /\.scss$/,
+                use: [
+                    isDevMode ? 'style-loader' : MiniCssExtractPlugin.loader,
+                  'css-loader',
+                  'sass-loader',
+                ],
+            }
         ]
     },
     externals: {
@@ -70,7 +83,10 @@ const commonConfiguration = {
         'react-dom': 'ReactDOM'
     },
     plugins: [
-        new ExtractTextPlugin('styles.css'),
+        new MiniCssExtractPlugin({
+            filename: isDevMode ? '[name].css' : '[name].[hash].css',
+            chunkFilename: isDevMode ? '[id].css' : '[id].[hash].css',
+        }),
         new webpack.ProvidePlugin({
           React: 'react'
         }),
@@ -81,8 +97,10 @@ const commonConfiguration = {
           title: 'React Typescript',
         }),
     ],
+    resolve: {
+        extensions: ['.ts', '.tsx', '.js', '.scss', '.css']
+    },
 };
-
-const extraConfiguration = PRODUCTION ? prodConfiguration : devConfiguration;
+const extraConfiguration = !isDevMode ? prodConfiguration : devConfiguration;
 
 module.exports = webpackMerge(commonConfiguration, extraConfiguration);

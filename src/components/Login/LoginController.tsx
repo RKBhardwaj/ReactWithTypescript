@@ -1,6 +1,4 @@
 import * as React from 'react';
-
-import Footer from '../container/Footer';
 import LoginView from './LoginView';
 
 class LoginController extends React.Component<any, any> {
@@ -14,12 +12,12 @@ class LoginController extends React.Component<any, any> {
         this.changeHandler = this.changeHandler.bind(this);
     }
 
-    changeHandler(e: {}) {
-        
+    changeHandler(e: any) {
+        console.log(e.target.name);
     }
 
-    blurHandler(e: {}) {
-
+    blurHandler(e: any) {
+        console.log(e.target.name);
     }
 
     render() {
