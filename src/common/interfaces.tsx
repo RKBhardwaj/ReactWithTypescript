@@ -2,6 +2,13 @@ export interface AuthProps {
     validUser: boolean
 }
 
+export interface UserProps {
+    validUser: boolean,
+    userDetails: {
+        username: string
+    }
+}
+
 export interface AlertProps {
     show: boolean;
     message: string;
@@ -15,6 +22,7 @@ export interface ActionProps {
 
 export interface storeProps {
     alertReducer: AlertProps,
-    authReducer: AuthProps
+    authReducer: AuthProps,
+    userReducer: UserProps
 };
 

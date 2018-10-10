@@ -2,7 +2,7 @@ import { UPDATE_ALERT } from '../actions/types';
 import { ActionProps, AlertProps } from '../common/interfaces';
 
 const defaultState: AlertProps = {
-    show: true,
+    show: false,
     message: 'Hello',
     type: 'danger'
 };

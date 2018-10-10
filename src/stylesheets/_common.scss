@@ -22,3 +22,41 @@ footer {
     text-shadow: none !important;
     box-shadow: none !important;
 }
+
+.main-container {
+    position: relative;
+    top: 50px;
+}
+
+/**
+* Using @each block to create classes
+**/
+@each $s in (normal, bold, italic) {
+    .#{$s} {font-weight: $s;}
+}
+
+/**
+* using @for loop with through(will include the last element) and to (will not include the last element)
+**/
+@for $i from 1 through 5 {
+    .list-#{$i} {
+       width: 2px * $i;
+    }
+}
+
+@for $i from 1 to 5 {
+    .listTo-#{$i} {
+        width: 2px * $i;
+    }
+}
+
+/**
+* using @while loop to create classes
+**/
+$p: 3;
+@while $p < 5 {
+    .item-#{$p} {
+        color: $color-red;
+        $p : $p + 1;
+    }
+}

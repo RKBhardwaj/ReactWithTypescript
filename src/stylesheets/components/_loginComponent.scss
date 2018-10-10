@@ -1,0 +1,11 @@
+.login-container {
+    position: absolute;
+    top: 10%;
+    left: 20%;
+    background: $color-white;
+    padding: 10px;
+    width:60%;
+    border: 1px solid #f1f1f1;
+    @include border-radius(5px);
+    @include box-shadow(10px, 10px, 0, 0, $color-shadow);
+}

@@ -1,7 +1,66 @@
-@mixin box-shadow ($size, $color) {
-    box-shadow: $size $color;
-    -webkit-box-shadow: $size $color;
-    -moz-box-shadow: $size $color;
-    -o-box-shadow: $size $color;
-    -ms-box-shadow: $size $color;
+/**
+* hl - horizontal length
+* vl - vertical length
+* br - blur radius
+* sr - spread radius
+* color - shadow color
+* type inset or outset, default outset
+**/
+@mixin box-shadow ($hl, $vl, $br, $sr, $color, $inset: false) {
+    @if $inset {
+        -webkit-box-shadow: inset $hl $vl $br $sr $color;
+           -moz-box-shadow: inset $hl $vl $br $sr $color;
+            -ms-box-shadow: inset $hl $vl $br $sr $color;
+                box-shadow: inset $hl $vl $br $sr $color;
+    } @else {
+        -webkit-box-shadow: $hl $vl $br $sr $color;
+           -moz-box-shadow: $hl $vl $br $sr $color;
+            -ms-box-shadow: $hl $vl $br $sr $color;
+                box-shadow: $hl $vl $br $sr $color;
+    }
+}
+
+/**
+* border radius
+**/
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+       -moz-border-radius: $radius;
+        -ms-border-radius: $radius;
+            border-radius: $radius;
+}
+
+/**
+* showing the ellipses if word crosses the boundary
+**/
+@mixin truncate($truncation-boundary) {
+    max-width: $truncation-boundary;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/**
+* Media screen
+**/
+$breakpoints: (
+    "phone":        400px,
+    "phone-wide":   480px,
+    "phablet":      560px,
+    "tablet-small": 640px,
+    "tablet":       768px,
+    "tablet-wide":  1024px,
+    "desktop":      1248px,
+    "desktop-wide": 1440px
+);
+@mixin mq($width, $type: min) {
+    @if map_has_key($breakpoints, $width) {
+        $width: map_get($breakpoints, $width);
+        @if $type == max {
+            $width: $width - 1px;
+        }
+        @media only screen and (#{$type}-width: $width) {
+            @content;
+        }
+    }
 }
